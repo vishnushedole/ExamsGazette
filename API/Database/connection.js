@@ -5,7 +5,9 @@ let db;
 const  Connect =(callback)=>
 {
      MongoClient.connect(url).then((result)=>{
+      console.log(result)
         db = result.db('ExamGazzete');
+        console.log(db)
         if(db)
         callback({db:db})
         else
