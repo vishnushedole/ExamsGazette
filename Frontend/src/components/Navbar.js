@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExamNavbar } from '../Styleed/Navbar.styled.js'
+import { ExamNavbar } from '../Styled/Navbar.styled.js'
 
 function Navbar() {
   return (
