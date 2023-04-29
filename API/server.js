@@ -8,7 +8,7 @@ const cors = require('cors');
 const Connect = require('./Database/connection.js')
 const global = require('global')
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://master--examsgazette.netlify.app/"],
     methods: ["GET", "POST"],
     credentials:true
 }));
