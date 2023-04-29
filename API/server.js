@@ -15,11 +15,11 @@ app.use(cookieParser());
 app.use(session({
     key: "user_sid",
     secret : "AuthenticationUsingSessionsAnsCookies",
+    resave : true,
+    saveUninitialized : true,
     cookie :{
         expires:600000
-    },
-    saveUninitialised : false,
-    resave : false,
+    }
 }
 ))
 app.use(bodyparser.urlencoded({ extended: false }))
