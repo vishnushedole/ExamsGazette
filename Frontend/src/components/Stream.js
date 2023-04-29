@@ -24,7 +24,7 @@ function Stream() {
     <div className='streams'>
       <div className='sideArticles'>
         <h2>Read Articles</h2>
-      {Articles.map((item,ind)=>{  
+        {Articles.map((item,ind)=>{  
                           return <>
                       <div class="card">
                           <img className="card-img-top" src={require("../images/im1.jpg")} alt="Card image cap"/>

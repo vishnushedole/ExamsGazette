@@ -1,6 +1,10 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
 const mongodb = require('mongodb')
+const bcrypt = require('bcrypt')
+const saltRounds = 10;
+
+
 let news = [];
 const Connect = require('../Database/connection.js')
 exports.getNews = (req,res,next)=>{
@@ -115,5 +119,73 @@ exports.postComment =(req,res,next)=>{
         }).catch(err=>{
             res.json(err)
         })
+    })
+}
+exports.CreateUser = (req, res,next) =>{
+    const{firstname, lastname, email, password} = req.body;
+            //hashing the password
+            
+            bcrypt.hash(password, saltRounds, (err, hash) =>{
+            if(err){
+                return console.log("Cannot hash the password");
+            }
+            else{
+                const hashedPW = hash;
+                const userData = {
+                    firstname : firstname,
+                    lastname : lastname,
+                    email : email,
+                    password : hashedPW
+                };
+                Connect(async(db)=>{
+
+                    console.log(userData);
+                    const coll = await db.collection('User')
+                    await coll.insertOne(userData).then((result)=>{
+                        console.log("User created");
+                        req.session.user = email;
+                        req.session.username = firstname;
+                        return res.json({valid: true, user : req.session.user, username: req.session.username}); 
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+                })
+            }
+});    
+}
+exports.Login = (req, res,next) =>{
+    Connect(async(db)=>{
+        console.log(req.body.email)
+        const coll = await db.collection('User')
+        await coll.findOne({email : req.body.email})
+        .then(result =>{
+            const pw = result.password;
+            bcrypt.compare(req.body.password, pw, async(err, isMatch) =>{
+                if(isMatch){
+                    req.session.user = req.body.email;
+                    req.session.username = result.firstname;
+                    console.log(req.session);
+                    return res.json({valid: true, user : req.session.user, username:result.firstname});
+                }
+                else{
+                    return res.json({valid: false, user: null});
+                }
+            })
+        })
+    })
+    
+};
+exports.Logout = (req,res,next)=>{
+    console.log("Reached")
+    res.clearCookie("user_sid");
+    return res.json({cleared : true});
+}
+
+exports.getUser = (req,res,next)=>{
+    Connect(async db=>{
+        const coll = await db.collection('User');
+        const result = await coll.findOne({firstname:req.body.name});
+        console.log(result)
+        res.json(result)
     })
 }

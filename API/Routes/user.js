@@ -17,4 +17,12 @@ Router.get('/getStream',Controller.getStream);
 
 Router.post('/postComment',Controller.postComment);
 
+Router.post('/signup',Controller.CreateUser);
+
+Router.post('/login',Controller.Login);
+
+Router.get('/logout',Controller.Logout);
+
+Router.post('/getUser',Controller.getUser);
+
 module.exports = Router;

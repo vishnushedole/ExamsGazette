@@ -71,6 +71,18 @@ export default class About extends Component{
     })
     
     }
+    componentDidMount()
+    {
+        let user = sessionStorage.getItem("sessionUser")
+        console.log(user)
+        if(user!=null)
+        {
+            this.setState({
+            username:user
+        })
+    }
+        console.log(this.state.username)
+    }
     render(){
         
         if(this.state.status.length!=0)

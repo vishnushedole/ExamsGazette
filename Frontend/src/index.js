@@ -12,24 +12,47 @@ import Article from './components/FullArticle.js'
 import Stream from './components/Stream';
 import Latest from './components/Latest.js'
 import Footer from'./components/footer.js'
+import UserProfile from './components/UserProfile';
+import SignUp from './components/SignUp';
+import LoginPopup from './components/LoginPopup'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-  <Navbar/>
   <Router>
     <Routes>
       <Route path="/" element={<>
+        <Navbar/>
         <NewsCarousel/>
         <News/>
         <ArticleCards/>
       </>}/>
-      <Route path="/writeArticle" element={<WriteArticle/>}/>
-      <Route path="/Article/:id" element={<Article/>}/>
-      <Route path="/Stream/:stream" element={<Stream/>}/>
-      <Route path="/latest" element={<Latest/>}/>
+      <Route path="/writeArticle" element={<>
+        <Navbar/>
+        <WriteArticle/>
+      </>}/>
+      <Route path="/Article/:id" element={<>
+        <Navbar/>
+        <Article/>
+      </>}/>
+      <Route path="/Stream/:stream" element={
+      <>
+      <Navbar/>
+      <Stream/>
+      </>}/>
+      <Route path="/latest" element={<>
+        <Navbar/>
+        <Latest/>
+      </>}/>
+      <Route path="/Profile" element={
+      <>
+      <Navbar/>
+      <UserProfile/>
+      </>}/>
+      <Route path="/signup" element={<SignUp/>}/>
+      <Route path="/login" element={<LoginPopup/>}/>
     </Routes>
-  </Router>
   <Footer/>
+  </Router>
   </>
 );
 

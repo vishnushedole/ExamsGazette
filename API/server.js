@@ -2,7 +2,26 @@ const express = require('express')
 const app = express();
 const router = require('./Routes/user.js');
 const bodyparser = require('body-parser')
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST"],
+    credentials:true
+}));
+app.use(cookieParser());
+app.use(session({
+    key: "user_sid",
+    secret : "AuthenticationUsingSessionsAnsCookies",
+    cookie :{
+        expires:600000
+    },
+    saveUninitialised : false,
+    resave : false,
+}
+))
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
 app.use((req,res,next)=>{
