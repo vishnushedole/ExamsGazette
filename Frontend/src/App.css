@@ -1,0 +1,273 @@
+html,body{
+  height:100%;
+}
+#root{
+  height: 100%;
+}
+.publish_article{
+ 
+  width:80%;
+  height:75%;
+  margin-left: 150px;
+  margin-top: 10px;
+  padding:10px;
+  align-items: center;
+  border : solid 2px rgb(239, 166, 64);
+}
+.publish_article #title input{
+  position: relative;
+  left:2.5%;
+  width:250px;
+  height:35px;
+  border:2px solid rgb(14, 14, 14);
+  border-radius: 5px;
+}
+.publish_article #Disc input{
+  margin-top: 20px;
+  position: relative;
+  left:1.5%;
+  width:450px;
+  height:35px;
+  border:2px solid rgb(11, 11, 11);
+  border-radius: 5px;
+}
+.publish_article textarea{
+  position: relative;
+  left:100px;
+  top:20px;
+  width:70%;
+  height:60%;
+  border:2px solid rgb(9, 9, 9);
+  border-radius: 5px;
+}
+.publish_article  p{
+  position: relative;
+  left: 8%;
+  top:1%;
+}
+.Btn{
+  position: relative;
+  left: 750px;
+  width:150px;
+  height:30px;
+  margin: 5px;
+  border-radius: 5px ;
+  border:rgb(2, 98, 2);
+  background-color: rgb(48, 151, 48);
+  color:white;
+}
+#wordCount{
+  position: relative;
+  left:73%;
+  top:4%;
+}
+.status{
+  width:40%;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 400px;
+  background-color: rgb(128, 239, 126);
+  color: green;
+  border-radius: 10px;
+}
+/* News cards */
+
+.news{
+  display: grid;
+  grid-template-columns: 100%;
+  justify-items: center;
+  row-gap: 10px;
+}
+.news_Itm{
+  
+  border:solid 2px rgb(216, 209, 209);
+  border-radius: 5px;
+  padding :10px;
+  width:900px;
+  height:160px;
+  font-size: 15px;
+}
+.news_Itm div{
+  width :650px;
+  position: relative;
+  left:25%;
+  top:-130px;
+}
+.news_Itm:hover{
+  box-shadow: 2px 2px 2px 2px rgb(112, 108, 108);
+}
+
+.news h2{
+  margin-top:25px;
+}
+.searchBox{
+   margin-left:1100px;
+   margin-top:20px;
+}
+.searchBox input{
+  border-radius:5px;
+}
+
+/*Full Atricle  */
+
+.Article{
+  background-image: url('./images/BG2.jpg');
+  border-radius: 10px;
+  position :relative;
+  left:15%;
+  background-color: #e0f7fa;
+  height:auto;
+  width:70%;
+  margin-top:40px;
+  padding :10px;
+  font-size: 20px;
+}
+.Article h2{
+  margin-top: 30px;
+  margin-left: 400px;
+}
+#user{
+  margin-left: 400px;
+}
+.Article h4{
+  margin-left: 100px;
+}
+#content{
+   padding :50px;
+   font-size: 18px;
+   font-family:sans-serif;
+   
+}
+.writecomment{
+  margin-left: 250px;
+  margin-top: 30px;
+  display: flex;
+  column-gap: 10px;
+  height:80px;
+}
+.writecomment textarea{
+  height:40px;
+  width:500px;
+  border-radius: 5px;
+}
+.comments{
+  margin-left:250px;
+  height:auto;
+}
+.comments h4{
+  margin-left: 100px;
+}
+.comments div{
+  display: flex;
+  column-gap: 10px;
+}
+/* Streems */
+
+.streams{
+  display:grid;
+  grid-template-columns: 30% 70%;
+}
+.card{
+  width:20rem;
+  height:350px;
+}
+
+.card-img-top{
+  margin-top:5px;
+  height:150px;
+  width:15rem;
+}
+.sideArticles{
+  margin-left :60px;
+  margin-top: 30px;
+  display: grid;
+  row-gap: 10px;
+  grid-template-columns: 100%;
+}
+
+.exams{
+  margin-left:-50px;
+  display: grid;
+  grid-template-columns: 100%;
+  justify-items: center;
+  row-gap: 0px;
+}
+.exams_Itm{
+  
+  border:solid 2px rgb(216, 209, 209);
+  border-radius: 5px;
+  padding :10px;
+  width:1100px;
+  height:340px;
+  font-size: 15px;
+}
+.exams_Itm div{
+  width :650px;
+  position: relative;
+  left:25%;
+  top:-250px;
+}
+.exams_Itm:hover{
+  box-shadow: 2px 2px 2px 2px rgb(112, 108, 108);
+}
+
+.exams h2{
+  margin-top:25px;
+}
+
+/* button  */
+
+.btnn{
+  width:150px;
+  height:30px;
+  margin: 5px;
+  border-radius: 5px ;
+  border:rgb(2, 98, 2);
+  background-color: rgb(48, 151, 48);
+  color:white;
+}
+.btnn a{
+  text-decoration: none;
+  color: white;
+}
+
+/* footer  */
+
+.footer{
+  margin-top: 40px;
+  height:150px;
+  display: grid;
+  grid-template-columns: 100%;
+  row-gap: 0px;
+}
+.FootNav{
+  background-color: grey;
+  height:100px;
+}
+.Footlogo{
+  background-color: rgb(252, 225, 22);
+  height:60px;
+}
+.FootNav #sections{
+  margin-top:10px;
+  margin-left:600px;
+  display: flex;
+  column-gap: 10px;
+}
+.FootNav div a{
+  font-size: 20px;
+  text-decoration: none;
+  color: white;
+}
+.FootNav #logo{
+  display: flex;
+  column-gap: 10px;
+  margin-left: 670px;
+  margin-top:20px;
+}
+.Footlogo h4{
+  margin-left:650px;
+}
+.Footlogo p{
+  margin-left: 650px;
+}
