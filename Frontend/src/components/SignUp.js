@@ -25,7 +25,7 @@ function SignUp() {
       try{
         setErrorText('');
         axios.defaults.withCredentials = true;
-        await axios.post("/signup",{
+        await axios.post("https://examsgazette.onrender.com/signup",{
           firstname, lastname, email, password
         })
         .then(res =>{

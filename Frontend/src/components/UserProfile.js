@@ -64,7 +64,7 @@ function UserProfile() {
         if(sessionUser==null)
         navigate('/')
 
-        axios.post('/getUser',{name:sessionUser}).then(res=>{
+        axios.post('https://examsgazette.onrender.com/getUser',{name:sessionUser}).then(res=>{
             setUser(res.data);
         })
     })

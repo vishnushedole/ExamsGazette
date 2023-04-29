@@ -23,7 +23,7 @@ import axios from 'axios'
             }
             if(user!="")
             {
-              axios.post('/postComment',addcomment).then(()=>{
+              axios.post('https://examsgazette.onrender.com/postComment',addcomment).then(()=>{
                 setStatus("Comment has been uploaded")
               }).catch(err=>console.log(err))
             }

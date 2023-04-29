@@ -12,7 +12,7 @@ function Stream() {
        {
           exams = await fetch(url)
           exams = await exams.json()
-          articles = await fetch('/getArticles')
+          articles = await fetch('https://examsgazette.onrender.com/getArticles')
           articles = await articles.json()
           console.log(articles)
         setExams(exams)

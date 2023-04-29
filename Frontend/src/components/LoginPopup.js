@@ -19,7 +19,7 @@ function LoginPopup() {
 
         setErrorText('');
         axios.defaults.withCredentials = true;
-        axios.post("/login", {email, password})
+        axios.post("https://examsgazette.onrender.com/login", {email, password})
         .then((res) =>{
           console.log(res);
           if(res.data.valid){

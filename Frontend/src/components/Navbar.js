@@ -39,7 +39,7 @@ function Navbar() {
     console.log(sessionUser)
     if(sessionUser){
       sessionStorage.removeItem("sessionUser");
-       axios.get("/logout") //clear the cookie on the server
+       axios.get("https://examsgazette.onrender.com/logout") //clear the cookie on the server
       .then(res =>{
         console.log(res.data)
         if(res.data.cleared){

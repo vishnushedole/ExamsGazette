@@ -55,7 +55,7 @@ export default class About extends Component{
     }
     if(this.state.username!="")
     {
-        axios.post('/postArticle',Article).then(()=>{
+        axios.post('https://examsgazette.onrender.com/postArticle',Article).then(()=>{
         this.setState({
             words:0,
             heading:"Heading of your article",
