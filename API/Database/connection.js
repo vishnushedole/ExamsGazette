@@ -7,11 +7,11 @@ const  Connect =(callback)=>
      MongoClient.connect(url).then((result)=>{
         db = result.db('ExamGazzete');
         if(db)
-        callback(db)
+        callback({db:db})
         else
         throw 'NO database found';
      }).catch(err=>{
-        console.log(err)
+        callback({db:null})
      })
 }
 

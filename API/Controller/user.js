@@ -3,7 +3,7 @@ const axios = require('axios');
 const mongodb = require('mongodb')
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
-
+const global = require('global')
 
 let news = [];
 const Connect = require('../Database/connection.js')
@@ -40,38 +40,36 @@ exports.getNews = (req,res,next)=>{
     Fetchdata('https://www.ndtv.com/education/page-1',res)
 }
 
-exports.postArticle =  (req,res,next)=>{
+exports.postArticle =  async(req,res,next)=>{
     let Article = {
         username : req.body.username,
         heading : req.body.heading,
         discription : req.body.discription,
         content : req.body.content
     }
-     Connect(async db=>{
+    
         const coll = await db.collection('Articles')
         const result = await coll.insertOne(Article)
         res.json(result)
-    })
 }
 exports.test = (req,res,next)=>{
     res.send("hello world")
 }
 
-exports.getArticles = (req,res,next)=>{
-    Connect(async db=>{
-        const coll = await db.collection('Articles')
+exports.getArticles = async(req,res,next)=>{
+   
+        const coll = await global.db.collection('Articles')
         const cursor = await coll.find();
         let Articles = [];
         await cursor.forEach(element => {
             Articles.push(element);
         });
         res.json(Articles)
-    })
+    
 }
-exports.ArticlebyId = (req,res,next)=>{
+exports.ArticlebyId = async(req,res,next)=>{
     const id = req.query.id;
     console.log(id)
-    Connect(async db=>{
         const coll = await db.collection('Articles')
         const cursor = await coll.find();
         let Articles = [];
@@ -80,12 +78,12 @@ exports.ArticlebyId = (req,res,next)=>{
             Articles.push(element)
         });
         res.json(Articles)
-    })
+
 }
 
-exports.getStream = (req,res,next)=>{
+exports.getStream = async(req,res,next)=>{
     const name = req.query.name;
-    Connect(async db=>{
+    
         const coll = await db.collection('Stream')
         const cursor = await coll.find();
         let Articles = [];
@@ -94,17 +92,16 @@ exports.getStream = (req,res,next)=>{
             Articles.push(element)
         });
         res.json(Articles)
-    })
 }
-exports.postComment =(req,res,next)=>{
+exports.postComment =async(req,res,next)=>{
     const id = req.body.id;
     let newcomment = {
         user:req.body.user,
         comment:req.body.comment
     }
     let record;
-    Connect(async db=>{
-        const coll = await db.collection('Articles')
+    
+        const coll = await global.db.collection('Articles')
         const cursor = await coll.find();
         let Articles = [];
         await cursor.forEach(element => {
@@ -119,13 +116,13 @@ exports.postComment =(req,res,next)=>{
         }).catch(err=>{
             res.json(err)
         })
-    })
+   
 }
 exports.CreateUser = (req, res,next) =>{
     const{firstname, lastname, email, password} = req.body;
             //hashing the password
             
-            bcrypt.hash(password, saltRounds, (err, hash) =>{
+            bcrypt.hash(password, saltRounds, async(err, hash) =>{
             if(err){
                 return console.log("Cannot hash the password");
             }
@@ -137,10 +134,8 @@ exports.CreateUser = (req, res,next) =>{
                     email : email,
                     password : hashedPW
                 };
-                Connect(async(db)=>{
-
                     console.log(userData);
-                    const coll = await db.collection('User')
+                    const coll = await global.db.collection('User')
                     await coll.insertOne(userData).then((result)=>{
                         console.log("User created");
                         req.session.user = email;
@@ -149,14 +144,14 @@ exports.CreateUser = (req, res,next) =>{
                     }).catch(err=>{
                         console.log(err)
                     })
-                })
+                
             }
 });    
 }
-exports.Login = (req, res,next) =>{
-    Connect(async(db)=>{
+exports.Login = async(req, res,next) =>{
+    
         console.log(req.body.email)
-        const coll = await db.collection('User')
+        const coll = await global.db.collection('User')
         await coll.findOne({email : req.body.email})
         .then(result =>{
             const pw = result.password;
@@ -172,7 +167,7 @@ exports.Login = (req, res,next) =>{
                 }
             })
         })
-    })
+   
     
 };
 exports.Logout = (req,res,next)=>{
@@ -181,11 +176,10 @@ exports.Logout = (req,res,next)=>{
     return res.json({cleared : true});
 }
 
-exports.getUser = (req,res,next)=>{
-    Connect(async db=>{
-        const coll = await db.collection('User');
+exports.getUser = async(req,res,next)=>{
+    
+        const coll = await global.db.collection('User');
         const result = await coll.findOne({firstname:req.body.name});
-        console.log(result)
         res.json(result)
-    })
+   
 }

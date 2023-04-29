@@ -5,7 +5,8 @@ const bodyparser = require('body-parser')
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-
+const Connect = require('./Database/connection.js')
+const global = require('global')
 app.use(cors({
     origin: ["http://localhost:3000"],
     methods: ["GET", "POST"],
@@ -32,5 +33,16 @@ app.use((req,res,next)=>{
 })
 
 app.use('/',router);
+
+Connect((obj)=>{
+    if(obj.db!=null)
+    {
+        console.log("connection created")
+        global.db = obj.db;
+    }
+    else{
+        console.log("connection failed")
+    }
+})
 
 app.listen(8080);
