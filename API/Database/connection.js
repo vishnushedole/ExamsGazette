@@ -13,6 +13,7 @@ const  Connect =(callback)=>
         else
         throw 'NO database found';
      }).catch(err=>{
+      console.log(err)
         callback({db:null})
      })
 }
