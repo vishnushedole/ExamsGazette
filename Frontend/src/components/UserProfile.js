@@ -63,8 +63,6 @@ function UserProfile() {
         let sessionUser = sessionStorage.getItem('sessionUser');
         if(sessionUser==null)
         navigate('/')
-        else
-        toast.success(sessionUser+" Welcome to  ExamGazette!")
 
         axios.post('/getUser',{name:sessionUser}).then(res=>{
             setUser(res.data);
