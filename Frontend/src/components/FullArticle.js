@@ -32,7 +32,7 @@ import axios from 'axios'
     }
      useEffect(()=>{
         console.log("hi")
-       const url = '/ArticlebyId?id='+id
+       let url = 'https://examsgazette.onrender.com/ArticlebyId?id='+id
        const fetchData = async ()=>
        {
           data = await fetch(url)

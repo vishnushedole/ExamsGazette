@@ -67,6 +67,7 @@ function UserProfile() {
         axios.post('https://examsgazette.onrender.com/getUser',{name:sessionUser}).then(res=>{
             setUser(res.data);
         })
+        
     })
     // console.log(Exams)
     return (
@@ -93,7 +94,6 @@ function UserProfile() {
                 <div className="saved-exams">
                     <h2>Saved Exams</h2>
                     {Exams.map((item, ind) => {
-                        console.log(item)
                         if (item.stream === stream)
                             return <div className='exams_It' key={ind}>
                                 <img src={require("../images/JEE.jfif")} width='150' height='150' />

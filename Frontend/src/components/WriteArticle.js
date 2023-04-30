@@ -10,7 +10,7 @@ export default class About extends Component{
             txt : "",
             words:0,
             heading:"Heading of your article",
-            content:"It should me maximum of 1000 words.",
+            content:"Maximum of 1000 words",
             Discription:"Discription.",
             comments:[],
             status:""
