@@ -166,9 +166,7 @@ exports.Login = async(req, res,next) =>{
                     return res.json({valid: false, user: null});
                 }
             })
-        })
-   
-    
+        }) 
 };
 exports.Logout = (req,res,next)=>{
     console.log("Reached")

@@ -7,7 +7,7 @@ function Stream() {
     let articles = [],exams=[];
      useEffect(()=>{
         console.log("hi")
-       const url = '/getStream?name='+stream
+       const url = 'https://examsgazette.onrender.com/getStream?name='+stream
        const fetchData = async ()=>
        {
           exams = await fetch(url)

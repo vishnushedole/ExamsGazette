@@ -7,6 +7,16 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const Connect = require('./Database/connection.js')
 const global = require('global')
+
+app.use(bodyparser.urlencoded({ extended: false }))
+app.use(bodyparser.json())
+app.use((req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader('Access-Control-Allow-Methods','*');
+    res.setHeader('Access-Control-Allow-Headers','*');
+    next();
+})
+
 app.use(cors({
     origin: ["*"],
     methods: ["GET", "POST","FETCH"],
@@ -23,14 +33,7 @@ app.use(session({
     }
 }
 ))
-app.use(bodyparser.urlencoded({ extended: false }))
-app.use(bodyparser.json())
-app.use((req,res,next)=>{
-    res.setHeader('Access-Control-Allow-Origin','*');
-    res.setHeader('Access-Control-Allow-Methods','*');
-    res.setHeader('Access-Control-Allow-Headers','*');
-    next();
-})
+
 
 app.use('/',router);
 
