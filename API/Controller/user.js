@@ -69,7 +69,6 @@ exports.getArticles = async(req,res,next)=>{
 }
 exports.ArticlebyId = async(req,res,next)=>{
     const id = req.query.id;
-    console.log(id)
         const coll = await db.collection('Articles')
         const cursor = await coll.find();
         let Articles = [];
@@ -134,7 +133,7 @@ exports.CreateUser = (req, res,next) =>{
                     email : email,
                     password : hashedPW
                 };
-                    console.log(userData);
+                    
                     const coll = await global.db.collection('User')
                     await coll.insertOne(userData).then((result)=>{
                         console.log("User created");
@@ -149,8 +148,6 @@ exports.CreateUser = (req, res,next) =>{
 });    
 }
 exports.Login = async(req, res,next) =>{
-    
-        console.log(req.body.email)
         const coll = await global.db.collection('User')
         await coll.findOne({email : req.body.email})
         .then(result =>{
@@ -169,7 +166,6 @@ exports.Login = async(req, res,next) =>{
         }) 
 };
 exports.Logout = (req,res,next)=>{
-    console.log("Reached")
     res.clearCookie("user_sid");
     return res.json({cleared : true});
 }

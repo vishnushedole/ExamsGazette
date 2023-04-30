@@ -40,11 +40,11 @@ app.use('/',router);
 Connect((obj)=>{
     if(obj.db!=null)
     {
-        console.log("connection created")
+        console.log("Mongodb connection established")
         global.db = obj.db;
     }
     else{
-        console.log("connection failed")
+        console.log("Mongodb connection failed")
     }
 })
 
