@@ -18,7 +18,7 @@ app.use(bodyparser.json())
 // })
 
 app.use(cors({
-    origin: ["http://master--examsgazette.netlify.app"],
+    origin: ["https://master--examsgazette.netlify.app"],
     methods: ["GET", "POST","FETCH"],
     credentials:true
 }));
