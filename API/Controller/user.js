@@ -47,28 +47,39 @@ exports.postArticle =  async(req,res,next)=>{
         discription : req.body.discription,
         content : req.body.content
     }
-    
-        const coll = await db.collection('Articles')
+        try{
+            const coll = await db.collection('Articles')
         const result = await coll.insertOne(Article)
         res.json(result)
+        }catch(err){
+            console.log("error occuored in posting data");
+        }
+        
 }
 exports.test = (req,res,next)=>{
     res.send("hello world")
 }
 
 exports.getArticles = async(req,res,next)=>{
-   
-        const coll = await global.db.collection('Articles')
+        try{
+            if(global.db)
+            console.log("connected");
+
+            const coll = await global.db.collection('Articles')
         const cursor = await coll.find();
         let Articles = [];
         await cursor.forEach(element => {
             Articles.push(element);
         });
         res.json(Articles)
-    
+        }catch(err){
+            console.log("database not connected")
+            res.json([]);
+        }
 }
 exports.ArticlebyId = async(req,res,next)=>{
-    const id = req.query.id;
+    try{
+        const id = req.query.id;
         const coll = await db.collection('Articles')
         const cursor = await coll.find();
         let Articles = [];
@@ -77,12 +88,16 @@ exports.ArticlebyId = async(req,res,next)=>{
             Articles.push(element)
         });
         res.json(Articles)
+    }catch(err){
+        console.log("database not connected")
+        res.json([])
+    }
 
 }
 
 exports.getStream = async(req,res,next)=>{
     const name = req.query.name;
-    
+      try{
         const coll = await db.collection('Stream')
         const cursor = await coll.find();
         let Articles = [];
@@ -91,6 +106,10 @@ exports.getStream = async(req,res,next)=>{
             Articles.push(element)
         });
         res.json(Articles)
+    }catch(err){
+        console.log("database not connected")
+        res.json([])
+    }
 }
 exports.postComment =async(req,res,next)=>{
     const id = req.body.id;
@@ -99,8 +118,8 @@ exports.postComment =async(req,res,next)=>{
         comment:req.body.comment
     }
     let record;
-    
-        const coll = await global.db.collection('Articles')
+        try{
+           const coll = await global.db.collection('Articles')
         const cursor = await coll.find();
         let Articles = [];
         await cursor.forEach(element => {
@@ -115,6 +134,12 @@ exports.postComment =async(req,res,next)=>{
         }).catch(err=>{
             res.json(err)
         })
+
+        }catch(err){
+        console.log("database not connected")
+        res.json(err)
+    }
+        
    
 }
 exports.CreateUser = (req, res,next) =>{
@@ -133,8 +158,8 @@ exports.CreateUser = (req, res,next) =>{
                     email : email,
                     password : hashedPW
                 };
-                    
-                    const coll = await global.db.collection('User')
+                    try{
+                        const coll = await global.db.collection('User')
                     await coll.insertOne(userData).then((result)=>{
                         console.log("User created");
                         req.session.user = email;
@@ -143,12 +168,18 @@ exports.CreateUser = (req, res,next) =>{
                     }).catch(err=>{
                         console.log(err)
                     })
+                    }catch(err){
+                     console.log("database not connected")
+                      res.json({valid: false, user : false, username: false})
+                    }
+                    
                 
             }
 });    
 }
 exports.Login = async(req, res,next) =>{
-        const coll = await global.db.collection('User')
+        try{
+            const coll = await global.db.collection('User')
         await coll.findOne({email : req.body.email})
         .then(result =>{
             const pw = result.password;
@@ -164,6 +195,10 @@ exports.Login = async(req, res,next) =>{
                 }
             })
         }) 
+        }catch(err){
+            console.log("connection falied")
+            res.json({valid: false, user: null});
+        }
 };
 exports.Logout = (req,res,next)=>{
     res.clearCookie("user_sid");
@@ -171,9 +206,14 @@ exports.Logout = (req,res,next)=>{
 }
 
 exports.getUser = async(req,res,next)=>{
-    
-        const coll = await global.db.collection('User');
+        try{
+            const coll = await global.db.collection('User');
         const result = await coll.findOne({firstname:req.body.name});
         res.json(result)
-   
+
+        }catch(err){
+            console.log("connection failed")
+            res.json(err)
+        }
+        
 }
