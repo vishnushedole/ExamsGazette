@@ -32,6 +32,8 @@ import axios from 'axios'
     }
      useEffect(()=>{
         console.log("hi")
+        let user = sessionStorage.getItem("sessionUser")
+        saveUser(user);
        let url = 'https://examsgazette.onrender.com/ArticlebyId?id='+id
        const fetchData = async ()=>
        {
