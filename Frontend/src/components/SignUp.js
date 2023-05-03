@@ -30,7 +30,7 @@ function SignUp() {
         })
         .then(res =>{
           console.log(res);
-          sessionStorage.setItem("userSession", res.data.username);
+          sessionStorage.setItem("sessionUser", res.data.username);
           navigate('/');
         })
         .catch(err => console.log(err));
