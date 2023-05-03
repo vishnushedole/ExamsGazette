@@ -45,7 +45,8 @@ exports.postArticle =  async(req,res,next)=>{
         username : req.body.username,
         heading : req.body.heading,
         discription : req.body.discription,
-        content : req.body.content
+        content : req.body.content,
+        comments : req.body.comments
     }
         try{
             const coll = await db.collection('Articles')
