@@ -74,7 +74,6 @@ export default class About extends Component{
     }
     componentDidMount()
     {
-        this.inputRef.current.focus();
         let user = sessionStorage.getItem("sessionUser")
         console.log(user)
         if(user!=null)
