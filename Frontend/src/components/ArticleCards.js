@@ -35,12 +35,8 @@ export default class ArticleCards extends Component {
      async componentDidMount()
      {
         console.log("hi")
-        let Articles = await fetch('https://master--examsgazette.netlify.app/getArticles')
-<<<<<<< HEAD
-        // Articles = await Articles.json();
-=======
-//         Articles = await Articles.json();
->>>>>>> 26701d0a4210e90f828b904a47681a2a7ec00177
+        let Articles = await fetch('https://examsgazette.onrender.com/getArticles')
+        Articles = await Articles.json();
         console.log(Articles)
         let Art = [];
         await Articles.forEach(element => {
