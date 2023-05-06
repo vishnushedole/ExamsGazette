@@ -111,11 +111,11 @@ html,body{
 /*Full Atricle  */
 
 .Article{
-  background-image: url('./images/BG2.jpg');
+  /* background-image: url('./images/BG2.jpg'); */
   border-radius: 10px;
   position :relative;
   left:15%;
-  background-color: #e0f7fa;
+  background-color: #efede3;
   height:auto;
   width:70%;
   margin-top:40px;
@@ -124,13 +124,25 @@ html,body{
 }
 .Article h2{
   margin-top: 30px;
-  margin-left: 400px;
+  margin-left: 40px;
 }
 #user{
-  margin-left: 400px;
+  margin-left: 40px;
+  font-size: 15px;
 }
 .Article h4{
-  margin-left: 100px;
+  margin-left: 40px;
+}
+.likecount{
+  display: flex;
+  height:40px;
+  width:80px;
+  margin-top:20px;
+  margin-left: 20px;
+}
+.likecount p{
+  margin-left:5px;
+  margin-top:5px;
 }
 #content{
    padding :50px;
@@ -151,11 +163,12 @@ html,body{
   border-radius: 5px;
 }
 .comments{
+  width:700px;
   margin-left:250px;
   height:auto;
 }
-.comments h4{
-  margin-left: 100px;
+.comments p{
+  margin-left: 37px;
 }
 .comments div{
   display: flex;
@@ -190,15 +203,15 @@ html,body{
   display: grid;
   grid-template-columns: 100%;
   justify-items: center;
-  row-gap: 0px;
+  row-gap: 15px;
 }
 .exams_Itm{
   
   border:solid 2px rgb(216, 209, 209);
   border-radius: 5px;
   padding :10px;
-  width:1100px;
-  height:340px;
+  width:900px;
+  height:310px;
   font-size: 15px;
 }
 .exams_Itm div{

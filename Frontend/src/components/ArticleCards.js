@@ -35,7 +35,7 @@ export default class ArticleCards extends Component {
      async componentDidMount()
      {
         console.log("hi")
-        let Articles = await fetch('https://examsgazette.onrender.com/getArticles')
+        let Articles = await fetch('http://localhost:8080/getArticles')
         Articles = await Articles.json();
         console.log(Articles)
         let Art = [];
@@ -64,8 +64,8 @@ export default class ArticleCards extends Component {
                        <div class="card">
                         <img className="card-img-top" src={require("../images/im1.jpg")} alt="Card image cap"/>
                         <div className="card-body">
-                            <h5 class="card-title">{item.heading}</h5>
-                            <p class="card-text">{(item.discription.length>60)?item.discription.substr(0,60)+"...":item.discription}</p>
+                            <h5 class="card-title">{(item.heading.length>15)?item.heading.substr(0,15)+"...":item.heading}</h5>
+                            <p class="card-text">{(item.discription.length>30)?item.discription.substr(0,30)+"...":item.discription}</p>
                             <p class="card-text">By {item.username}</p>
                             <button className='btnn'><a href={"/Article/"+item._id}>Read More</a></button>
                         </div>

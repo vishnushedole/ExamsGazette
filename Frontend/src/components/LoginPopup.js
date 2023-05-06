@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyledPopup } from '../Styled/LoginPopup.styled'
-import { useState } from 'react'
+import { useState ,useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 function LoginPopup() {
@@ -8,7 +8,10 @@ function LoginPopup() {
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
   const navigate = useNavigate();
-  
+  const inputRef = React.createRef();
+  useEffect(()=>{
+    inputRef.current.focus();
+  })
   async function submit(e){
     e.preventDefault();
     if(email === '' || password === ''){
@@ -50,7 +53,7 @@ function LoginPopup() {
             <div className='formelements'>
                 <label>Username or email address</label>
                 <br/>
-                <input name='email' placeholder='Email' type='email' onChange={(e) => {setEmail(e.target.value)}}></input>
+                <input name='email' ref={inputRef} placeholder='Email' type='email' onChange={(e) => {setEmail(e.target.value)}}></input>
             </div>
             <div className='formelements'>
                 <label>Password</label>

@@ -5,6 +5,7 @@ export default class About extends Component{
     constructor()
     {
         super();
+        this.inputRef = react.createRef();
         this.state={
             username:"",
             txt : "",
@@ -51,7 +52,8 @@ export default class About extends Component{
         heading : this.state.heading,
         discription : this.state.Discription,
         content : this.state.content,
-        comments:[]
+        comments:[],
+        Likes:[]
     }
     if(this.state.username!="")
     {
@@ -73,6 +75,7 @@ export default class About extends Component{
     }
     componentDidMount()
     {
+        this.inputRef.current.focus();
         let user = sessionStorage.getItem("sessionUser")
         console.log(user)
         if(user!=null)
@@ -91,7 +94,7 @@ export default class About extends Component{
                 <div className='status'>{this.state.status}</div>
               <div className="publish_article">
               <p>Share your experiance with other students</p>
-              <div id="title">Heading  <input type="text" value={this.state.heading} onChange={this.Change_title}></input></div>
+              <div id="title">Heading  <input type="text" ref={this.inputRef} value={this.state.heading} onChange={this.Change_title}></input></div>
               <div id="Disc">Discription  <input type="text" value={this.state.Discription} onChange={this.Change_discription}></input></div>
                <textarea className="editor" value={this.state.content} onChange={this.Change_content}></textarea>
               <p id="wordCount">{this.state.words}/1000</p>
@@ -104,7 +107,7 @@ export default class About extends Component{
                 <>
               <div className="publish_article">
               <p>Share your experiance with other students</p>
-              <div id="title">Heading  <input type="text" value={this.state.heading} onChange={this.Change_title}></input></div>
+              <div id="title">Heading  <input type="text" ref={this.inputRef} value={this.state.heading} onChange={this.Change_title}></input></div>
               <div id="Disc">Discription  <input type="text" value={this.state.Discription} onChange={this.Change_discription}></input></div>
                <textarea className="editor" value={this.state.content} onChange={this.Change_content}></textarea>
               <p id="wordCount">{this.state.words}/1000</p>

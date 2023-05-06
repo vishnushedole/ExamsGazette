@@ -46,7 +46,8 @@ exports.postArticle =  async(req,res,next)=>{
         heading : req.body.heading,
         discription : req.body.discription,
         content : req.body.content,
-        comments : req.body.comments
+        comments : req.body.comments,
+        Likes:req.body.Likes
     }
         try{
             const coll = await db.collection('Articles')
@@ -103,7 +104,9 @@ exports.getStream = async(req,res,next)=>{
         const cursor = await coll.find();
         let Articles = [];
         await cursor.forEach(element => {
-            if(element.stream==name)
+            if(name!="" && element.stream==name)
+            Articles.push(element)
+            else if(name=="" || name==null)
             Articles.push(element)
         });
         res.json(Articles)
@@ -217,4 +220,85 @@ exports.getUser = async(req,res,next)=>{
             res.json(err)
         }
         
+}
+exports.postLike = async(req,res,next)=>{
+    console.log(req.body.user);
+    const id = req.body.id;
+    try{
+        const coll = await global.db.collection('Articles');
+        const cursor = await coll.find();
+        let Articles = [];
+        await cursor.forEach(element => {
+            if(element._id==id)
+            Articles.push(element)
+        });
+        Articles[0].Likes.push(req.body.user);
+        const Obj = mongodb.ObjectId;
+        const Oid = new Obj(Articles[0]._id);
+        coll.updateOne({_id:Oid},{ $set: { "Likes" : Articles[0].Likes} },).then(result=>{
+            res.json("success");
+        }).catch(err=>{
+            res.json("error");
+        })
+    }catch(err){
+       console.log(err);
+    }
+}
+
+exports.postDislike = async(req,res,next)=>{
+    console.log(req.body.user);
+    const id = req.body.id;
+    try{
+        const coll = await global.db.collection('Articles');
+        const cursor = await coll.find();
+        let Articles = [];
+        await cursor.forEach(element => {
+            if(element._id==id)
+            Articles.push(element)
+        });
+        Articles[0].Likes.forEach(liked=>{
+            if(liked==user)
+            {
+                Articles[0].Likes.slice(i,1);
+            }
+        })
+        Articles[0].Dislikes.push(req.body.user);
+        const Obj = mongodb.ObjectId;
+        const Oid = new Obj(Articles[0]._id);
+        coll.updateOne({_id:Oid},{ $set: { "Likes" : Articles[0].Likes} ,"Dislikes":Articles[0].Dislikes},).then(result=>{
+            res.json("success");
+        }).catch(err=>{
+            res.json("error");
+        })
+    }catch(err){
+       console.log(err);
+    }
+}
+exports.getUserByName = async(req,res,next)=>{
+   
+    try{
+        const coll = await global.db.collection('User');
+        const User = await coll.findOne({firstname:req.query.name});
+        res.json(User)
+    }catch(err){
+        console.log(err)
+    }
+}
+exports.SaveExam = async(req,res,next)=>{
+    try{
+        const coll = await global.db.collection('User');
+        let User = await coll.findOne({firstname:req.body.user});
+        User.SavedExams.push(req.body.id)
+        console.log(User.SavedExams)
+        let Obj = mongodb.ObjectId;
+        let OId = new Obj(User._id);
+        coll.updateOne({_id:OId},{$set:{"SavedExams":User.SavedExams}},).then(result=>{
+            res.json(User.SaveExams);
+        })
+        .catch(err=>{
+            console.log("error");
+        })
+    }catch(err){
+        console.log(err)
+    }
 }

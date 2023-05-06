@@ -1,12 +1,17 @@
 import {React,useEffect,useState} from 'react'
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 function Stream() {
     const [Exams,setExams] = useState([])
     const [Articles,setArticles] = useState([])
     const {stream} = useParams();
+    const [user,setUser] = useState("");
+    const [SavedExams,setSavedExams] = useState([]);
     let articles = [],exams=[];
      useEffect(()=>{
-        console.log("hi")
+
+      let sessionUser =  sessionStorage.getItem("sessionUser");
+      setUser(sessionUser);
        const url = 'https://examsgazette.onrender.com/getStream?name='+stream
        const fetchData = async ()=>
        {
@@ -14,12 +19,32 @@ function Stream() {
           exams = await exams.json()
           articles = await fetch('https://examsgazette.onrender.com/getArticles')
           articles = await articles.json()
-          console.log(articles)
+         
+          if(sessionUser!="" && sessionUser!=null)
+          {
+              let data = await fetch('https://examsgazette.onrender.com/getUser?name='+sessionUser)
+              data = await data.json();
+              console.log(data.SavedExams)
+              setSavedExams(data.SavedExams);
+              console.log(SavedExams)
+          }
+          
         setExams(exams)
         setArticles(articles)
        }
      fetchData()
     },[0])
+    const saveExam=(id,event)=>{
+           if(event.target.value=="Save")
+           {
+              axios.post('https://examsgazette.onrender.com/SaveExam',{id:id,user:user}).then((result)=>{
+                setSavedExams(result.data);
+                console.log(result.data)
+              }).catch(err=>{
+                console.log(err);
+              })
+           }
+    }
   return  (
     <div className='streams'>
       <div className='sideArticles'>
@@ -37,8 +62,9 @@ function Stream() {
                       </div></>
                   })
       }</div>
+      <div>
       <div className='exams'>
-   <h2>Exams</h2>
+      <h2>Exams</h2>
    {Exams.map((item,ind)=>{
      if(item.stream==stream)
       return <div className='exams_Itm' key={ind}>
@@ -47,10 +73,11 @@ function Stream() {
               <p>{(item.eligibility.length>400)?item.eligibility.substr(0,400)+"...":item.eligibility}</p>
               <p> Last Date To Apply : {item.last_date}</p>
               <button className='btnn'><a href={item.Apply} >Apply Now</a></button>
+              <input type="button" className='btnn' onClick={(event)=>saveExam(item._id,event)} value={(SavedExams.includes(item._id))?"Saved":"Save"}></input>
               </div>
           </div> 
   })}
-  </div>
+  </div></div>
     </div>
   )
 }

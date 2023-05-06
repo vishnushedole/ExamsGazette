@@ -7,8 +7,11 @@ import axios from 'axios'
     const [comment,saveComment] = useState("")
     const [comments,saveComments] = useState([])
     const [user,saveUser] = useState("");
-    const [status,setStatus] = useState("")
+    const [status,setStatus] = useState("");
+    const [likes,setLikes] = useState(0);
+    const [liked,setLiked] = useState(false);
     const {id} = useParams();
+  
     let data = [];
     const  Change_comment =(event)=>
     {
@@ -30,6 +33,20 @@ import axios from 'axios'
             else
             setStatus("Login to add a comment!")
     }
+    function Liked()
+    {
+          if(!liked)
+          {
+            axios.post('https://examsgazette.onrender.com/postLike',{id:id,user:user}).then((result)=>{
+              setLikes(likes+1);
+              setLiked(true);
+            }).catch((err)=>{
+              console.log("error");
+            })
+            
+          }
+    }
+    
      useEffect(()=>{
         console.log("hi")
         let user = sessionStorage.getItem("sessionUser")
@@ -42,20 +59,30 @@ import axios from 'axios'
         setArticle(data[0])
         console.log(data[0].comments)
         saveComments(data[0].comments)
-        // console.log(comments)
+        setLikes(data[0].Likes.length)
+        for(let i=0;i<data[0].Likes.length;i++)
+        {
+           if(data[0].Likes[i]==user)
+           setLiked(true);
+        }
+        
        }
      fetchData()
     
-    },[0])
+    },[5])
     if(status!="")
      return (
       <>
-      
       <div className='Article' >
+      
         <h2>{article.heading}</h2>
-        <p id="user">Published by {article.username}</p>
+        <p id="user">Published by - {article.username}</p>
         <h4>{article.discription}</h4>
         <p id="content">{article.content}</p>
+        <section className='likecount'>
+      <button type="button" onClick={Liked} style={(liked)?{'backgroundColor':'skyblue','color':'white','border':'none'}:{'backgroundColor':'white','color':'black','border':'none'}} value="&#8593;"><img src={require("../images/thumb-up.png")} width="30" height="30"/></button>
+          <p>{likes}</p>
+        </section>
       </div>
       <div className='status'>{status}</div>
       <div className='writecomment'>
@@ -68,7 +95,7 @@ import axios from 'axios'
              return <>
              <div>
               <img src={require("../images/logo.jpg")} width="35" height="30"/>
-              <h5>{element.user}</h5>
+              <h6>{element.user}</h6><br/>
              <p>{element.comment}</p></div>
              </>
          })}
@@ -76,13 +103,20 @@ import axios from 'axios'
       </>
     )
     else
+    {
+       console.log("else ")
      return (
     <>
     <div className='Article' >
+    
       <h2>{article.heading}</h2>
-      <p id="user">Published by {article.username}</p>
+      <p id="user">Published by - {article.username}</p>
       <h4>{article.discription}</h4>
       <p id="content">{article.content}</p>
+      <section className='likecount'>
+          <button type="button" onClick={Liked} style={(liked)?{'backgroundColor':'skyblue','color':'white','border':'none'}:{'backgroundColor':'white','color':'black','border':'none'}} value="&#8593;"><img src={require("../images/thumb-up.png")} width="30" height="30"/></button>
+          <p>{likes}</p>
+        </section>
     </div>
     <div className='writecomment'>
     <textarea className="editor" value={comment} onChange={Change_comment}></textarea>
@@ -93,14 +127,16 @@ import axios from 'axios'
        {comments.map((element,ind)=>{
            return <>
            <div>
-            <img src={require("../images/logo.jpg")} width="35" height="30"/>
-            <h5>{element.user}</h5>
-           <p>{element.comment}</p></div>
+            <img src={require("../images/logo.jpg")} width="30" height="25"/>
+            <h6>{element.user}</h6>
+            </div>
+             <p>{element.comment}</p> 
+             <hr/>
            </>
        })}
     </div>
     </>
-  )
+  )}
 }
 
 export default FullArticle

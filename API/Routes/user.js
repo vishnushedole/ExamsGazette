@@ -25,4 +25,12 @@ Router.get('/logout',Controller.Logout);
 
 Router.post('/getUser',Controller.getUser);
 
+Router.post('/postLike',Controller.postLike);
+
+Router.post('/postLike',Controller.postDislike);
+
+Router.get('/getUser',Controller.getUserByName);
+
+Router.post('/SaveExam',Controller.SaveExam);
+
 module.exports = Router;
