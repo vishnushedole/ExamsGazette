@@ -35,7 +35,7 @@ export default class ArticleCards extends Component {
      async componentDidMount()
      {
         console.log("hi")
-        let Articles = await fetch('http://localhost:8080/getArticles')
+        let Articles = await fetch('https://master--examsgazette.netlify.app/getArticles')
         Articles = await Articles.json();
         console.log(Articles)
         let Art = [];
