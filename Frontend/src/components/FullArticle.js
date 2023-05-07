@@ -35,7 +35,7 @@ import axios from 'axios'
     }
     function Liked()
     {
-          if(!liked)
+          if(!liked && user)
           {
             axios.post('https://examsgazette.onrender.com/postLike',{id:id,user:user}).then((result)=>{
               setLikes(likes+1);

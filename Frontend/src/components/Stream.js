@@ -35,7 +35,7 @@ function Stream() {
      fetchData()
     },[0])
     const saveExam=(id,event)=>{
-           if(event.target.value=="Save")
+           if(event.target.value=="Save" && user)
            {
               axios.post('https://examsgazette.onrender.com/SaveExam',{id:id,user:user}).then((result)=>{
                 setSavedExams(result.data);
