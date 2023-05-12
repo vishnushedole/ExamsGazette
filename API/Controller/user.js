@@ -194,6 +194,7 @@ exports.Login = async(req, res,next) =>{
                     
                     req.session.user = req.body.email;
                     req.session.username = result.firstname;
+                    console.log(req.session);
                     return res.json({valid: true, user : req.session.user, username:result.firstname});
                 }
                 else{
