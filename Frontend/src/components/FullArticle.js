@@ -26,6 +26,7 @@ import axios from 'axios'
             }
             if(user)
             {
+              axios.defaults.withCredentials = true;
               axios.post('https://examsgazette.onrender.com/postComment',addcomment).then(()=>{
                 setStatus("Comment has been uploaded")
               }).catch(err=>console.log(err))
@@ -37,6 +38,7 @@ import axios from 'axios'
     {
           if(!liked && user)
           {
+            axios.defaults.withCredentials = true;
             axios.post('https://examsgazette.onrender.com/postLike',{id:id,user:user}).then((result)=>{
               setLikes(likes+1);
               setLiked(true);
@@ -48,12 +50,20 @@ import axios from 'axios'
     }
     
      useEffect(()=>{
-        console.log("hi")
-        let user = sessionStorage.getItem("sessionUser")
-        saveUser(user);
+        let User = "";
+        axios.defaults.withCredentials = true;
+        axios.get('https://examsgazette.onrender.com/isLoggedin').then(res=>{
+        if(res.data.user)
+        {
+          saveUser(res.data.user);
+          User = res.data.user;
+        }
+     }).catch(err=>saveUser(""));
+       
        let url = 'https://examsgazette.onrender.com/ArticlebyId?id='+id
        const fetchData = async ()=>
        {
+        axios.defaults.withCredentials = true;
           data = await fetch(url)
         data = await data.json()
         setArticle(data[0])
@@ -62,15 +72,17 @@ import axios from 'axios'
         setLikes(data[0].Likes.length)
         for(let i=0;i<data[0].Likes.length;i++)
         {
-           if(data[0].Likes[i]==user)
+           if(data[0].Likes[i]==User)
            setLiked(true);
         }
         
        }
      fetchData()
     
-    },[5])
+    },[6])
     if(status!="")
+    {
+      
      return (
       <>
       <div className='Article' >
@@ -102,9 +114,10 @@ import axios from 'axios'
       </div>
       </>
     )
+        }
     else
     {
-       console.log("else ")
+      
      return (
     <>
     <div className='Article' >

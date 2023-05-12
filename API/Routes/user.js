@@ -33,4 +33,6 @@ Router.get('/getUser',Controller.getUserByName);
 
 Router.post('/SaveExam',Controller.SaveExam);
 
+Router.get('/isLoggedin',Controller.isLoggedin);
+
 module.exports = Router;

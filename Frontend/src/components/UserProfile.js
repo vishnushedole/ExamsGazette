@@ -14,11 +14,15 @@ function UserProfile() {
     
 
     useEffect(() => {
-        let sessionUser = sessionStorage.getItem('sessionUser');
-        if(sessionUser==null)
+        let User ="";
+        axios.defaults.withCredentials = true;
+        axios.get('https://examsgazette.onrender.com/isLoggedin').then(res => {
+            if (res.data.user) {
+                User=res.data.user;
+            }
+            if(User=="")
         navigate('/')
-
-        axios.post('https://examsgazette.onrender.com/getUser',{name:sessionUser}).then(res=>{
+        axios.post('https://examsgazette.onrender.com/getUser',{name:User}).then(res=>{
             setUser(res.data);
             axios.get('https://examsgazette.onrender.com/getStream?name=').then(exams=>{
                 let SavedExams = [];
@@ -29,10 +33,14 @@ function UserProfile() {
                 setExams(SavedExams);
             })
         })
+        }).catch(err => {
+            User="";
+        });
+        
         
     },[0])
     
-    // console.log(Exams)
+   
     return (
 
         <StyledUserProfile>

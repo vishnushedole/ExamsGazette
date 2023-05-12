@@ -7,11 +7,18 @@ function Stream() {
     const {stream} = useParams();
     const [user,setUser] = useState("");
     const [SavedExams,setSavedExams] = useState([]);
+    let User = "";
     let articles = [],exams=[];
      useEffect(()=>{
+      axios.defaults.withCredentials = true;
+      axios.get('https://examsgazette.onrender.com/isLoggedin').then(res=>{
+        if(res.data.user)
+        {
+          setUser(res.data.user);
+          User = res.data.user;
+        }
+     }).catch(err=>setUser(""));
 
-      let sessionUser =  sessionStorage.getItem("sessionUser");
-      setUser(sessionUser);
        const url = 'https://examsgazette.onrender.com/getStream?name='+stream
        const fetchData = async ()=>
        {
@@ -20,9 +27,9 @@ function Stream() {
           articles = await fetch('https://examsgazette.onrender.com/getArticles')
           articles = await articles.json()
          
-          if(sessionUser!="" && sessionUser!=null)
+          if(User!="" && User!=null)
           {
-              let data = await fetch('https://examsgazette.onrender.com/getUser?name='+sessionUser)
+              let data = await fetch('https://examsgazette.onrender.com/getUser?name='+User)
               data = await data.json();
               console.log(data.SavedExams)
               setSavedExams(data.SavedExams);
@@ -36,7 +43,8 @@ function Stream() {
     },[0])
     const saveExam=(id,event)=>{
            if(event.target.value=="Save" && user)
-           {
+           { 
+              axios.defaults.withCredentials = true;
               axios.post('https://examsgazette.onrender.com/SaveExam',{id:id,user:user}).then((result)=>{
                 setSavedExams(result.data);
                 console.log(result.data)

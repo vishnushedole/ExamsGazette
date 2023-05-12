@@ -2,7 +2,6 @@ import { React, useEffect, useState } from 'react'
 import { ExamNavbar } from '../Styled/Navbar.styled.js'
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -14,31 +13,31 @@ function Navbar() {
   const navigate = useNavigate();
   let loggedin = false;
   useEffect(() =>{
-  
-    let sessionUser =  sessionStorage.getItem("sessionUser");
-    console.log(sessionUser)
-    if(sessionUser){
-      sethref('');
-      setBtnText("Sign Out");
-      setWelcome("Welcome "+sessionUser);
-      if(loggedin==false)
-      {
-        loggedin = true;
+       axios.defaults.withCredentials = true;
+       axios.get('https://examsgazette.onrender.com/isLoggedin').then(res=>{
+        if(res.data.user){
+          sethref('');
+          setBtnText("Sign Out");
+          setWelcome("Welcome "+res.data.user);
+          if(loggedin==false)
+          {
+            loggedin = true;
+          }
+        }
+      else{
+        sethref('/login');
+        setBtnText("Sign In");
+        setWelcome('');
       }
-    }
-    else{
-      sethref('/login');
-      setBtnText("Sign In");
-      setWelcome('');
-    }
+       }).catch(err=>{
+        console.log("error");
+       })
+       
   }, [])
 
    const logout = ()=>
   {
-    let sessionUser =  sessionStorage.getItem("sessionUser");
-    console.log(sessionUser)
-    if(sessionUser){
-      sessionStorage.removeItem("sessionUser");
+      axios.defaults.withCredentials = true;
        axios.get("https://examsgazette.onrender.com/logout") //clear the cookie on the server
       .then(res =>{
         console.log(res.data)
@@ -47,7 +46,6 @@ function Navbar() {
           navigate('/');
         }
       })
-    }
   }
   if(welcome.length>0)
   return (

@@ -1,118 +1,118 @@
-import react ,{Component} from 'react';
+import react, { Component } from 'react';
 import '../App.css';
 import axios from 'axios';
-export default class About extends Component{
-    constructor()
-    {
+export default class About extends Component {
+    constructor() {
         super();
-        this.state={
-            username:"",
-            txt : "",
-            words:0,
-            heading:"Heading of your article",
-            content:"Maximum of 1000 words",
-            Discription:"Discription.",
-            comments:[],
-            status:""
+        this.state = {
+            username: "",
+            txt: "",
+            words: 0,
+            heading: "Heading of your article",
+            content: "Maximum of 1000 words",
+            Discription: "Discription.",
+            comments: [],
+            status: ""
         };
-        
+
     }
-    
-    Change_title=(event)=>{
+
+    Change_title = (event) => {
         this.setState({
-          heading:event.target.value
+            heading: event.target.value
         })
     }
-    Change_content=(event)=>{
-        
-        let count=0;
-        for(let i=0;i<event.target.value.length;i++)
-        {
-            if(this.state.content[i]==' ')
-            count++;
+    Change_content = (event) => {
+
+        let count = 0;
+        for (let i = 0; i < event.target.value.length; i++) {
+            if (this.state.content[i] == ' ')
+                count++;
         }
-        if(count<=1000)
-        {
+        if (count <= 1000) {
             this.setState({
-                content:event.target.value,
-                words:count
-              })
+                content: event.target.value,
+                words: count
+            })
         }
     }
-    Change_discription = (event)=>{
+    Change_discription = (event) => {
         this.setState({
-            Discription:event.target.value
+            Discription: event.target.value
         })
     }
-    
-    saveArticle =async ()=>{
+
+    saveArticle = async () => {
         let Article = {
-            username : this.state.username,
-        heading : this.state.heading,
-        discription : this.state.Discription,
-        content : this.state.content,
-        comments:[],
-        Likes:[]
-    }
-    if(this.state.username!="")
-    {
-        axios.post('https://examsgazette.onrender.com/postArticle',Article).then(()=>{
-        this.setState({
-            words:0,
-            heading:"Heading of your article",
-            content:"It should me maximum of 1000 words.",
-            Discription:"Discription.",
-            status:"Congraturaltions,Your Article has been successfully published!"
-        })
-    });
-    }
-    else
-    this.setState({
-        status:"You must login before publishing article."
-    })
-    
-    }
-    componentDidMount()
-    {
-        let user = sessionStorage.getItem("sessionUser")
-        console.log(user)
-        if(user!=null)
-        {
+            username: this.state.username,
+            heading: this.state.heading,
+            discription: this.state.Discription,
+            content: this.state.content,
+            comments: [],
+            Likes: []
+        }
+        if (this.state.username != "") {
+            axios.post('https://examsgazette.onrender.com/postArticle', Article).then(() => {
+                this.setState({
+                    words: 0,
+                    heading: "Heading of your article",
+                    content: "It should me maximum of 1000 words.",
+                    Discription: "Discription.",
+                    status: "Congraturaltions,Your Article has been successfully published!"
+                })
+            });
+        }
+        else
             this.setState({
-            username:user
-        })
+                status: "You must login before publishing article."
+            })
+
     }
+    componentDidMount() {
+        axios.defaults.withCredentials = true;
+        axios.get('https://examsgazette.onrender.com/isLoggedin').then(res => {
+            if (res.data.user) {
+                this.setState({
+                    username: res.data.user
+                })
+            }
+        }).catch(err => {
+            this.setState({
+                username: ""
+            })
+        });
+
         console.log(this.state.username)
     }
-    render(){
-        
-        if(this.state.status.length!=0)
+    render() {
+
+        if (this.state.status.length != 0)
             return (
                 <>
-                <div className='status'>{this.state.status}</div>
-              <div className="publish_article">
-              <p>Share your experiance with other students</p>
-              <div id="title">Heading  <input type="text"  value={this.state.heading} onChange={this.Change_title}></input></div>
-              <div id="Disc">Discription  <input type="text" value={this.state.Discription} onChange={this.Change_discription}></input></div>
-               <textarea className="editor" value={this.state.content} onChange={this.Change_content}></textarea>
-              <p id="wordCount">{this.state.words}/1000</p>
-              <input className="Btn" type="submit" value="POST" onClick={this.saveArticle}></input>
-              </div>
-            </>
+                    <div className='status'>{this.state.status}</div>
+                    <div className="publish_article">
+                        <p>Share your experiance with other students</p>
+                        <div id="title">Heading  <input type="text" value={this.state.heading} onChange={this.Change_title}></input></div>
+                        <div id="Disc">Discription  <input type="text" value={this.state.Discription} onChange={this.Change_discription}></input></div>
+                        <textarea className="editor" value={this.state.content} onChange={this.Change_content}></textarea>
+                        <p id="wordCount">{this.state.words}/1000</p>
+                        <input className="Btn" type="submit" value="POST" onClick={this.saveArticle}></input>
+                    </div>
+                </>
             )
-            else
+        else
             return (
                 <>
-              <div className="publish_article">
-              <p>Share your experiance with other students</p>
-              <div id="title">Heading  <input type="text" value={this.state.heading} onChange={this.Change_title}></input></div>
-              <div id="Disc">Discription  <input type="text" value={this.state.Discription} onChange={this.Change_discription}></input></div>
-               <textarea className="editor" value={this.state.content} onChange={this.Change_content}></textarea>
-              <p id="wordCount">{this.state.words}/1000</p>
-              <input className="Btn" type="submit" value="POST" onClick={this.saveArticle}></input>
-              </div>
-            </>
+                    <div className="publish_article">
+                        <p>Share your experiance with other students</p>
+                        <div id="title">Heading  <input type="text" value={this.state.heading} onChange={this.Change_title}></input></div>
+                        <div id="Disc">Discription  <input type="text" value={this.state.Discription} onChange={this.Change_discription}></input></div>
+                        <textarea className="editor" value={this.state.content} onChange={this.Change_content}></textarea>
+                        <p id="wordCount">{this.state.words}/1000</p>
+                        <input className="Btn" type="submit" value="POST" onClick={this.saveArticle}></input>
+                    </div>
+                </>
             )
-        
+
     }
 }

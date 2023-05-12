@@ -10,6 +10,7 @@ function SignUp() {
   const [confirm, setConfirm] = useState('');
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
+  const [SavedExams, setSavedExams] = useState([]);
   const [errorText, setErrorText] = useState('');
   const navigate = useNavigate();
   
@@ -28,11 +29,9 @@ function SignUp() {
         setErrorText('');
         axios.defaults.withCredentials = true;
         await axios.post("https://examsgazette.onrender.com/signup",{
-          firstname, lastname, email, password
+          firstname, lastname, email, password,SavedExams
         })
         .then(res =>{
-          console.log(res);
-          sessionStorage.setItem("sessionUser", res.data.username);
           navigate('/');
         })
         .catch(err => console.log(err));

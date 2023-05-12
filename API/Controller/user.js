@@ -63,6 +63,7 @@ exports.test = (req,res,next)=>{
 }
 
 exports.getArticles = async(req,res,next)=>{
+    console.log(req.session.user);
         try{
             if(global.db)
             console.log("connected");
@@ -147,7 +148,7 @@ exports.postComment =async(req,res,next)=>{
    
 }
 exports.CreateUser = (req, res,next) =>{
-    const{firstname, lastname, email, password} = req.body;
+    const{firstname, lastname, email, password,SavedExams} = req.body;
             //hashing the password
             
             bcrypt.hash(password, saltRounds, async(err, hash) =>{
@@ -160,7 +161,8 @@ exports.CreateUser = (req, res,next) =>{
                     firstname : firstname,
                     lastname : lastname,
                     email : email,
-                    password : hashedPW
+                    password : hashedPW,
+                    SavedExams:SavedExams
                 };
                     try{
                         const coll = await global.db.collection('User')
@@ -191,7 +193,6 @@ exports.Login = async(req, res,next) =>{
                 if(isMatch){
                     req.session.user = req.body.email;
                     req.session.username = result.firstname;
-                    console.log(req.session);
                     return res.json({valid: true, user : req.session.user, username:result.firstname});
                 }
                 else{
@@ -205,7 +206,9 @@ exports.Login = async(req, res,next) =>{
         }
 };
 exports.Logout = (req,res,next)=>{
-    res.clearCookie("user_sid");
+    console.log(req.get('Cookie'))
+    res.clearCookie("session.sig");
+    res.clearCookie("session");
     return res.json({cleared : true});
 }
 
@@ -301,4 +304,8 @@ exports.SaveExam = async(req,res,next)=>{
     }catch(err){
         console.log(err)
     }
+}
+exports.isLoggedin = (req,res,next)=>{
+    console.log(req.session.user);
+    res.json({user:req.session.username});
 }
