@@ -30,7 +30,7 @@ app.use(session({
     cookie :{
         expires:600000,
         secure:true,
-        httponly:false
+        httpOnly:false
     }
 }
 ))
