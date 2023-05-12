@@ -33,8 +33,8 @@ app.use(session({
         sameSite:"none",
         httpOnly:false,
         secure:true,
-        domain:'.netlify.app'
-    }
+        domain:'.master--examsgazette.netlify.app',
+    },
 }
 ))
 
