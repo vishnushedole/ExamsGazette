@@ -31,7 +31,8 @@ app.use(session({
         expires:600000,
         sameSite:"none",
         httpOnly:true,
-        secure:true
+        secure:true,
+        domain:'.netlify.app'
     }
 }
 ))
