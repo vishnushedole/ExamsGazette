@@ -15,7 +15,7 @@ function Navbar() {
   useEffect(() =>{
        axios.defaults.withCredentials = true;
        axios.get('https://examsgazette.onrender.com/isLoggedin').then(res=>{
-      
+        console.log(res)
         if(res.data.user){
           sethref('');
           setBtnText("Sign Out");
