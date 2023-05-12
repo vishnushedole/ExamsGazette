@@ -24,6 +24,7 @@ app.use(cors({
 }));
 app.set("trust proxy", 1);
 app.use(session({
+    key:"user_id",
     secret : "AuthenticationUsingSessionsAnsCookies",
     resave : false,
     saveUninitialized : false,
