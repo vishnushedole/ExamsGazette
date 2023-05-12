@@ -12,7 +12,7 @@ export class News extends Component {
     }
      async componentDidMount()
     {
-       data = await fetch('https://examsgazette.onrender.com/fetch')
+       data = await fetch('https://examsgazette.onrender.com/fetch',{credentials:"include"});
        data = await data.json();
        
        this.setState({

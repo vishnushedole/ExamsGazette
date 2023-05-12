@@ -35,7 +35,7 @@ export default class ArticleCards extends Component {
      async componentDidMount()
      {
         console.log("hi")
-        let Articles = await fetch('https://examsgazette.onrender.com/getArticles')
+        let Articles = await fetch('https://examsgazette.onrender.com/getArticles',{credentials:"include"})
         Articles = await Articles.json();
         console.log(Articles)
         let Art = [];
