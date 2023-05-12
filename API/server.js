@@ -30,7 +30,7 @@ app.use(session({
     cookie :{
         expires:600000,
         sameSite:"none",
-        httpOnly:true,
+        httpOnly:false,
         secure:true,
         domain:'.netlify.app'
     }
