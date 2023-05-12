@@ -22,14 +22,16 @@ app.use(cors({
     methods: ["GET", "POST","FETCH"],
     credentials:true
 }));
-app.use(cookieParser());
+
 app.use(session({
     key: "user_sid",
     secret : "AuthenticationUsingSessionsAnsCookies",
     resave : true,
     saveUninitialized : true,
     cookie :{
-        expires:600000
+        expires:600000,
+        httponly:false,
+        secure:true
     }
 }
 ))
