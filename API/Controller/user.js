@@ -191,6 +191,7 @@ exports.Login = async(req, res,next) =>{
             const pw = result.password;
             bcrypt.compare(req.body.password, pw, async(err, isMatch) =>{
                 if(isMatch){
+                    console.log(result);
                     req.session.user = req.body.email;
                     req.session.username = result.firstname;
                     return res.json({valid: true, user : req.session.user, username:result.firstname});
