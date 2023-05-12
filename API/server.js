@@ -22,15 +22,15 @@ app.use(cors({
     methods: ["GET", "POST","FETCH"],
     credentials:true
 }));
-
+app.set("trust proxy", 1);
 app.use(session({
     secret : "AuthenticationUsingSessionsAnsCookies",
     resave : false,
     saveUninitialized : false,
     cookie :{
         expires:600000,
-        secure:true,
-        httpOnly:false
+        sameSite:"none",
+        secure:true
     }
 }
 ))
