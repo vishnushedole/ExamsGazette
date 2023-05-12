@@ -24,13 +24,13 @@ app.use(cors({
 }));
 
 app.use(session({
-    key: "user_sid",
     secret : "AuthenticationUsingSessionsAnsCookies",
-    resave : true,
-    saveUninitialized : true,
+    resave : false,
+    saveUninitialized : false,
     cookie :{
         expires:600000,
-        secure:true
+        secure:true,
+        httponly:false
     }
 }
 ))
