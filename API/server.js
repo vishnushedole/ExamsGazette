@@ -30,7 +30,6 @@ app.use(session({
     saveUninitialized : true,
     cookie :{
         expires:600000,
-        httponly:false,
         secure:true
     }
 }
