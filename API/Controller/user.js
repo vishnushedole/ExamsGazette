@@ -195,7 +195,7 @@ exports.Login = async(req, res,next) =>{
                     req.session.user = req.body.email;
                     req.session.username = result.firstname;
                     console.log(req.session);
-                    res.setHeader('set-Cookie','user_id=xyz;Serure;httpOnly=false;domain=.master--examsgazette.netlify.app;sameSite=None')
+                  
                     return res.json({valid: true, user : req.session.user, username:result.firstname});
                 }
                 else{
