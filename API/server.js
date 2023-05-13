@@ -28,8 +28,8 @@ app.use(session({
     resave : false,
     saveUninitialized : false,
     cookie :{
-        maxAge:600000,
-        sameSite:"none",
+        MaxAge:600000,
+        SameSite:"none",
         Secure:true,
     },
 }
