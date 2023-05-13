@@ -16,7 +16,7 @@ app.use(bodyparser.json())
 //     res.setHeader('Access-Control-Allow-Headers','*');
 //     next();
 // })
-
+app.use(cookieParser());
 app.use(cors({
     origin: ["https://master--examsgazette.netlify.app"],
     methods: ["GET", "POST","FETCH"],
