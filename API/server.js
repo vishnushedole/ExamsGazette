@@ -31,9 +31,7 @@ app.use(session({
     cookie :{
         maxAge:600000,
         sameSite:"none",
-        httpOnly:true,
         secure:true,
-        Domain:'.master--examsgazette.netlify.app',
     },
 }
 ))
