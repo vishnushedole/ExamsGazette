@@ -22,16 +22,17 @@ app.use(cors({
     methods: ["GET", "POST","FETCH"],
     credentials:true
 }));
-app.use(cookieParser());
+
 app.set("trust proxy", 1);
 app.use(session({
     secret : "AuthenticationUsingSessionsAnsCookies",
     resave : false,
     saveUninitialized : false,
     cookie :{
-        MaxAge:600000,
-        SameSite:"none",
-        Secure:true,
+        maxAge:600000,
+        sameSite:"none",
+        secure:true,
+        domain:'.master--examsgazette.netlify.app'
     },
 }
 ))
