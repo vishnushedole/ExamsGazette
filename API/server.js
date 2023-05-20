@@ -10,6 +10,12 @@ const global = require('global')
 
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
+app.use((req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','https://master--examsgazette.netlify.app');
+    res.setHeader('Access-Control-Allow-Methods','*');
+    res.setHeader('Access-Control-Allow-Headers','*');
+    next();
+})
 
 app.use(cors({
     origin: ["https://master--examsgazette.netlify.app"],
