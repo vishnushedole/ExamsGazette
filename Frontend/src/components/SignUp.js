@@ -1,8 +1,10 @@
 import React from 'react'
 import {StyledPopup}  from '../Styled/LoginPopup.styled'
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import context from '../UserContext.js';
+
 function SignUp() {
 
   const [email, setEmail] = useState('');
@@ -12,6 +14,7 @@ function SignUp() {
   const [lastname, setLastname] = useState('');
   const [SavedExams, setSavedExams] = useState([]);
   const [errorText, setErrorText] = useState('');
+  const [user,setUser] = useContext(context);
   const navigate = useNavigate();
   
 
@@ -32,7 +35,11 @@ function SignUp() {
           firstname, lastname, email, password,SavedExams
         })
         .then(res =>{
-          navigate('/');
+          if(res.data.valid){
+            setUser(res.data.user);
+            localStorage.setItem('user',res.data.user);
+             navigate('/');
+          }
         })
         .catch(err => console.log(err));
       }

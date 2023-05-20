@@ -1,14 +1,17 @@
-import {React,useState,Component} from 'react'
+import {React,useContext,Component} from 'react'
 import { StyledArticle } from '../Styled/ArticleCard.styled'
-import axios from 'axios'
-export default class ArticleCards extends Component {
+import { useNavigate } from 'react-router';
+import context from '../UserContext.js';
+
+class ArticleCardsComp extends Component {
        constructor()
        {
         super();
         this.state={
             startIndex:0,
             endIndex:4,
-            articles:[]
+            articles:[],
+            user:''
         }
        }
      
@@ -31,11 +34,17 @@ export default class ArticleCards extends Component {
           })
        }
      }
-   
+      FullArticle(id){
+        console.log(this.state.user);
+         this.props.navigate("/Article/"+id)
+     }
      async componentDidMount()
      {
         console.log("hi")
-        let Articles = await fetch('https://examsgazette.onrender.com/getArticles',{credentials:"include"})
+        this.setState ({
+            user:this.props.User
+        })
+        let Articles = await fetch('https://examsgazette.onrender.com/getArticles')
         Articles = await Articles.json();
         console.log(Articles)
         let Art = [];
@@ -67,7 +76,7 @@ export default class ArticleCards extends Component {
                             <h5 class="card-title">{(item.heading.length>15)?item.heading.substr(0,15)+"...":item.heading}</h5>
                             <p class="card-text">{(item.discription.length>30)?item.discription.substr(0,30)+"...":item.discription}</p>
                             <p class="card-text">By {item.username}</p>
-                            <button className='btnn'><a href={"/Article/"+item._id}>Read More</a></button>
+                            <button className='btnn' onClick={()=>this.FullArticle(item._id)}>Read More</button>
                         </div>
                     </div></>
                     }
@@ -81,6 +90,19 @@ export default class ArticleCards extends Component {
       )
   }
 }
+
+
+function ArticleCards() {
+    
+    const [user,setUser] = useContext(context);
+    console.log(user)
+    let navigate = useNavigate();
+  return (
+   <ArticleCardsComp User={user} navigate={navigate}/>
+  )
+}
+
+export default ArticleCards;
 
 
 

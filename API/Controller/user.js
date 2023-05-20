@@ -63,11 +63,8 @@ exports.test = (req,res,next)=>{
 }
 
 exports.getArticles = async(req,res,next)=>{
-    console.log(req.session.user);
+   
         try{
-            if(global.db)
-            console.log("connected");
-
             const coll = await global.db.collection('Articles')
         const cursor = await coll.find();
         let Articles = [];
@@ -165,18 +162,24 @@ exports.CreateUser = (req, res,next) =>{
                     SavedExams:SavedExams
                 };
                     try{
-                        const coll = await global.db.collection('User')
-                    await coll.insertOne(userData).then((result)=>{
+                        let coll = await global.db.collection('User')
+                    await coll.insertOne(userData).then(async(result)=>{
                         console.log("User created");
-                        req.session.user = email;
-                        req.session.username = firstname;
-                        return res.json({valid: true, user : req.session.user, username: req.session.username}); 
+                        coll = await global.db.collection('Session')
+                        coll.insertOne({user:firstname,email:email}).
+                    then(saved=>{
+                        console.log("session saved")
+                        return res.json({valid: true, user : firstname, email:email });
+                    }).catch(err=>{
+                        return res.json({valid: false, user: null});
+                    })
+                         
                     }).catch(err=>{
                         console.log(err)
                     })
                     }catch(err){
                      console.log("database not connected")
-                      res.json({valid: false, user : false, username: false})
+                      res.json({valid: false, user : false, email: false})
                     }
                     
                 
@@ -185,19 +188,23 @@ exports.CreateUser = (req, res,next) =>{
 }
 exports.Login = async(req, res,next) =>{
         try{
-            const coll = await global.db.collection('User')
+            let coll = await global.db.collection('User')
         await coll.findOne({email : req.body.email})
         .then(result =>{
             const pw = result.password;
             bcrypt.compare(req.body.password, pw, async(err, isMatch) =>{
                 if(isMatch){
+                    console.log("password matched")
                     
-                    req.session.user = req.body.email;
-                    req.session.username = result.firstname;
-                    console.log("session : ",req.session.cookie);
-                  
-                  
-                    return res.json({valid: true, user : req.session.user, username:result.firstname});
+                    coll = await global.db.collection('Session')
+                    coll.insertOne({user:result.firstname,email:req.body.email}).
+                    then(saved=>{
+                        console.log("session saved")
+                        return res.json({valid: true, user : result.firstname, email:req.body.email});
+                    }).catch(err=>{
+                        return res.json({valid: false, user: null});
+                    }
+                        )
                 }
                 else{
                     return res.json({valid: false, user: null});
@@ -209,11 +216,24 @@ exports.Login = async(req, res,next) =>{
             res.json({valid: false, user: null});
         }
 };
-exports.Logout = (req,res,next)=>{
-    console.log(req.get('Cookie'))
-    res.clearCookie("session.sig");
-    res.clearCookie("session");
-    return res.json({cleared : true});
+exports.Logout = async(req,res,next)=>{
+    console.log("Logout function")
+    try{
+      
+        let coll = await global.db.collection('Session')
+        console.log("logout : ",req.query.name)
+        coll.deleteOne({user:req.query.name}).
+        then(UserSession=>{
+            console.log("session saved")
+            return res.json({cleared: true, user : req.query.name});
+        }).catch(err=>{
+            return res.json({cleared: false, user: null});
+        })
+
+    }catch(err){
+       return res.json({cleared:false})
+    }
+    
 }
 
 exports.getUser = async(req,res,next)=>{
@@ -309,7 +329,22 @@ exports.SaveExam = async(req,res,next)=>{
         console.log(err)
     }
 }
-exports.isLoggedin = (req,res,next)=>{
-    console.log(req.session.user);
-    res.json({user:req.session.username});
+exports.isLoggedin = async (req,res,next)=>{
+    try{
+    let coll = await global.db.collection('Session')
+    coll.findOne({user:req.query.name}).
+    then(saved=>{
+        console.log(saved)
+        if(saved)
+        return res.json({user:req.query.name});
+        else
+        return res.json({user: null});
+    }).catch(err=>{
+        return res.json({user: null});
+    })
+    }
+    catch(err){
+        res.json({user:null});
+    }
+    
 }

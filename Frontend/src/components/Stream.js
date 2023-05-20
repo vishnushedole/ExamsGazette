@@ -1,24 +1,17 @@
-import {React,useEffect,useState} from 'react'
+import {React,useEffect,useState,useContext} from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import context from '../UserContext.js';
+
 function Stream() {
     const [Exams,setExams] = useState([])
     const [Articles,setArticles] = useState([])
     const {stream} = useParams();
-    const [user,setUser] = useState("");
+    const [user,setUser] = useContext(context);
     const [SavedExams,setSavedExams] = useState([]);
-    let User = "";
     let articles = [],exams=[];
      useEffect(()=>{
-      axios.defaults.withCredentials = true;
-      axios.get('https://examsgazette.onrender.com/isLoggedin').then(res=>{
-        if(res.data.user)
-        {
-          setUser(res.data.user);
-          User = res.data.user;
-        }
-     }).catch(err=>setUser(""));
-
+      
        const url = 'https://examsgazette.onrender.com/getStream?name='+stream
        const fetchData = async ()=>
        {
@@ -27,20 +20,20 @@ function Stream() {
           articles = await fetch('https://examsgazette.onrender.com/getArticles')
           articles = await articles.json()
          
-          if(User!="" && User!=null)
+          if(user!="" && user!=null)
           {
-              let data = await fetch('https://examsgazette.onrender.com/getUser?name='+User)
+              let data = await fetch('https://examsgazette.onrender.com/getUser?name='+user)
               data = await data.json();
               console.log(data.SavedExams)
               setSavedExams(data.SavedExams);
-              console.log(SavedExams)
+              
           }
-          
+      
         setExams(exams)
         setArticles(articles)
        }
      fetchData()
-    },[0])
+    },[stream,SavedExams])
     const saveExam=(id,event)=>{
            if(event.target.value=="Save" && user)
            { 

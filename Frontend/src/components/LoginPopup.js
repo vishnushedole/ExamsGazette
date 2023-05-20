@@ -1,15 +1,17 @@
 import React from 'react'
 import { StyledPopup } from '../Styled/LoginPopup.styled'
-import { useState } from 'react'
+import { useState,useContext } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import context from '../UserContext.js';
+
 function LoginPopup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
   const navigate = useNavigate();
-
-  
+  const [user,setUser] = useContext(context);
+   
   async function submit(e){
     e.preventDefault();
     if(email === '' || password === ''){
@@ -23,7 +25,10 @@ function LoginPopup() {
         axios.post("https://examsgazette.onrender.com/login", {email, password})
         .then((res) =>{
           console.log(res);
+          
           if(res.data.valid){
+            setUser(res.data.user);
+            localStorage.setItem('user',res.data.user);
              navigate('/');
           }
           else{

@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component,useContext } from 'react'
+import context from '../UserContext.js';
+
 let data;
 export class Latest extends Component {
     constructor()
@@ -60,4 +62,10 @@ export class Latest extends Component {
   }
 }
 
-export default Latest
+function LatestNews()
+{
+    const [user,setUser] = useContext(context);
+    console.log(user);
+    return <Latest/>
+}
+export default LatestNews;

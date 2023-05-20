@@ -1,8 +1,10 @@
-import react, { Component } from 'react';
+import react, { Component, useContext } from 'react';
+import context from '../UserContext.js';
 import '../App.css';
 import axios from 'axios';
-export default class About extends Component {
+class About extends Component {
     constructor() {
+        
         super();
         this.state = {
             username: "",
@@ -51,7 +53,7 @@ export default class About extends Component {
             comments: [],
             Likes: []
         }
-        if (this.state.username != "") {
+        if (this.state.username) {
             axios.post('https://examsgazette.onrender.com/postArticle', Article).then(() => {
                 this.setState({
                     words: 0,
@@ -69,19 +71,9 @@ export default class About extends Component {
 
     }
     componentDidMount() {
-        axios.defaults.withCredentials = true;
-        axios.get('https://examsgazette.onrender.com/isLoggedin').then(res => {
-            if (res.data.user) {
-                this.setState({
-                    username: res.data.user
-                })
-            }
-        }).catch(err => {
-            this.setState({
-                username: ""
-            })
-        });
-
+        this.setState({
+            username:this.props.user
+        })
         console.log(this.state.username)
     }
     render() {
@@ -116,3 +108,12 @@ export default class About extends Component {
 
     }
 }
+function AboutFunc()
+{
+    const [user,setUser] = useContext(context);
+    console.log(user)
+    return (
+        <About user={user}/>
+    )
+}
+export default AboutFunc;

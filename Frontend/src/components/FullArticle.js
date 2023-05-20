@@ -1,17 +1,18 @@
-import {React,useEffect,useState} from 'react'
+import {React,useContext,useEffect,useState} from 'react'
 import { useParams  } from 'react-router-dom'
 import axios from 'axios'
+import context from '../UserContext.js';
 
  function  FullArticle() {
     const [article,setArticle] = useState({})
     const [comment,saveComment] = useState("")
     const [comments,saveComments] = useState([])
-    const [user,saveUser] = useState("");
+    const [user,setUser] = useContext(context);
     const [status,setStatus] = useState("");
     const [likes,setLikes] = useState(0);
     const [liked,setLiked] = useState(false);
     const {id} = useParams();
-  
+    
     let data = [];
     const  Change_comment =(event)=>
     {
@@ -26,7 +27,7 @@ import axios from 'axios'
             }
             if(user)
             {
-              axios.defaults.withCredentials = true;
+              
               axios.post('https://examsgazette.onrender.com/postComment',addcomment).then(()=>{
                 setStatus("Comment has been uploaded")
               }).catch(err=>console.log(err))
@@ -50,20 +51,9 @@ import axios from 'axios'
     }
     
      useEffect(()=>{
-        let User = "";
-        axios.defaults.withCredentials = true;
-        axios.get('https://examsgazette.onrender.com/isLoggedin').then(res=>{
-        if(res.data.user)
-        {
-          saveUser(res.data.user);
-          User = res.data.user;
-        }
-     }).catch(err=>saveUser(""));
-       
        let url = 'https://examsgazette.onrender.com/ArticlebyId?id='+id
        const fetchData = async ()=>
        {
-        axios.defaults.withCredentials = true;
           data = await fetch(url)
         data = await data.json()
         setArticle(data[0])
@@ -72,14 +62,13 @@ import axios from 'axios'
         setLikes(data[0].Likes.length)
         for(let i=0;i<data[0].Likes.length;i++)
         {
-           if(data[0].Likes[i]==User)
+           if(data[0].Likes[i]==user)
            setLiked(true);
         }
         
        }
      fetchData()
-    
-    },[6])
+    },[user,comments])
     if(status!="")
     {
       

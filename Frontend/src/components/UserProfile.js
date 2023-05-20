@@ -1,29 +1,27 @@
-import React,{useState,useEffect} from "react";
-import { useParams } from 'react-router-dom';
+import React,{useState,useEffect,useContext} from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { StyledUserProfile } from "../Styled/UserProfile.styled";
 import userimage from '../images/web-surfing.svg';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import context from '../UserContext.js';
+
 
 function UserProfile() {
     const navigate = useNavigate();
-    const [user,setUser] = useState({firstname:'fetching...',lastname:'fetching...',email:'fetching..',SavedExams:[]})
+    const [userdata,setUserdata] = useState({firstname:'fetching...',lastname:'fetching...',email:'fetching..',SavedExams:[]})
     const [Exams,setExams] = useState([]);
+    const [user,setUser] = useContext(context);
     
-
     useEffect(() => {
-        let User ="";
         axios.defaults.withCredentials = true;
-        axios.get('https://examsgazette.onrender.com/isLoggedin').then(res => {
-            if (res.data.user) {
-                User=res.data.user;
-            }
-            if(User=="")
+        
+        if(user==null)
         navigate('/')
-        axios.post('https://examsgazette.onrender.com/getUser',{name:User}).then(res=>{
-            setUser(res.data);
+
+        axios.post('https://examsgazette.onrender.com/getUser',{name:user}).then(res=>{
+            setUserdata(res.data);
             axios.get('https://examsgazette.onrender.com/getStream?name=').then(exams=>{
                 let SavedExams = [];
                 exams.data.forEach(element => {
@@ -33,12 +31,8 @@ function UserProfile() {
                 setExams(SavedExams);
             })
         })
-        }).catch(err => {
-            User="";
-        });
         
-        
-    },[0])
+    },[user])
     
    
     return (
@@ -52,9 +46,9 @@ function UserProfile() {
                     <div className="user-details">
                         <h3>Basic Details</h3>
                         <div className="user-basic-details">
-                            <p><span>First Name</span> : {user.firstname}</p>
-                            <p><span>Last Name</span> : {user.lastname}</p>
-                            <p><span>Email</span> : {user.email}</p>
+                            <p><span>First Name</span> : {userdata.firstname}</p>
+                            <p><span>Last Name</span> : {userdata.lastname}</p>
+                            <p><span>Email</span> : {userdata.email}</p>
                             <p><span>Date of Birth</span> : 01/01/2002</p>
                             <p><span>Address</span> : Kumaraswamy Layout</p>
                         </div>
