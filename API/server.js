@@ -10,33 +10,13 @@ const global = require('global')
 
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
-// app.use((req,res,next)=>{
-//     res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
-//     res.setHeader('Access-Control-Allow-Methods','*');
-//     res.setHeader('Access-Control-Allow-Headers','*');
-//     next();
-// })
+
 app.use(cookieParser());
 app.use(cors({
     origin: ["https://master--examsgazette.netlify.app"],
     methods: ["GET", "POST","FETCH"],
     credentials:true
 }));
-
-app.set("trust proxy", 1);
-app.use(session({
-    secret : "AuthenticationUsingSessionsAnsCookies",
-    resave : false,
-    saveUninitialized : false,
-    cookie :{
-        maxAge:600000,
-        sameSite:"none",
-        secure:true,
-        domain:'.master--examsgazette.netlify.app'
-    },
-}
-))
-
 
 app.use('/',router);
 
