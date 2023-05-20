@@ -53,6 +53,7 @@ function Navbar() {
         if(res.data.cleared){
           console.log("User logged out");
           setUser(null);
+          localStorage.removeItem('user');
           sethref('/login');
         setBtnText("Sign In");
         setWelcome('');
