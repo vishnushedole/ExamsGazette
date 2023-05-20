@@ -8,4 +8,4 @@ The ultimate destination for students who don't want to miss any important exams
 We used **React JS** for the front-end development, which allowed us to build a fast and responsive user interface. On the backend, we used **Node JS** and **Express JS**, which provided a robust and scalable server that can handle a large number of users. To store and manage the data, we used **MongoDB**, a powerful and flexible NoSQL database that allows for easy data management and retrieval.
 
 ## Try It
-https://master--examsgazette.netlify.app/
+https://examsgazette.netlify.app/
