@@ -11,7 +11,6 @@ const global = require('global')
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
 
-app.use(cookieParser());
 app.use(cors({
     origin: ["https://master--examsgazette.netlify.app"],
     methods: ["GET", "POST","FETCH"],
