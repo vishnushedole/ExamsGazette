@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "express-api-cache": "^1.0.4"
+  }
+}
