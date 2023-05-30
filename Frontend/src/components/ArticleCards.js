@@ -59,7 +59,9 @@ class ArticleCardsComp extends Component {
 
   render() {
     
-    return (
+    if(this.state.articles.length>0)
+    {
+      return (
         <>
             <div id="articles">
                 <h2 style={{"margin-top":"30px","textAlign":"center"}}>Articles</h2>
@@ -88,6 +90,20 @@ class ArticleCardsComp extends Component {
             </div>  
         </>
       )
+                  }
+  else
+  {
+    return (<>
+    <div id="articles">
+    <h2 style={{"margin-top":"30px","textAlign":"center"}}>Articles</h2>
+    <StyledArticle>
+    <button  class="previous round" onClick={this.previous}>&#8249;&#8249;</button>
+    <img src={require("../images/Loading_icon.gif")} className='loading'/>
+    <button  class="next round" onClick={this.next}>&#8250;&#8250;</button>
+    </StyledArticle>
+    </div>
+  </>)
+  }
   }
 }
 
