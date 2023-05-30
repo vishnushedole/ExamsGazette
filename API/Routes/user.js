@@ -1,19 +1,20 @@
 const express = require('express');
 const Router = express.Router();
 const Controller = require('../Controller/user.js')
-
+var cacheService = require("express-api-cache");
+var cache = cacheService.cache;
 
 Router.get('/',Controller.test);
 
-Router.get('/fetch',Controller.getNews);
+Router.get('/fetch',cache("30 minutes"),Controller.getNews);
 
 Router.post('/postArticle',Controller.postArticle);
 
-Router.get('/getArticles',Controller.getArticles);
+Router.get('/getArticles',cache("30 minutes"),Controller.getArticles);
 
 Router.get('/ArticlebyId',Controller.ArticlebyId);
 
-Router.get('/getStream',Controller.getStream);
+Router.get('/getStream',cache("30 minutes"),Controller.getStream);
 
 Router.post('/postComment',Controller.postComment);
 
