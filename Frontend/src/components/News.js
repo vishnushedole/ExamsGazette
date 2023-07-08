@@ -45,7 +45,7 @@ export class News extends Component {
   }
   else
   return <>
-  <img src={require("../images/Loading_icon.gif")} className='loading'/>
+  <img width={200} height={200} style={{"marginLeft":"43%"}} src={require("../images/Loading_icon.gif")} className='loading'/>
   </>
   }
 }

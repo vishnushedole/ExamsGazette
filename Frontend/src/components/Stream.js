@@ -69,7 +69,7 @@ function Stream() {
    {Exams.map((item,ind)=>{
      if(item.stream==stream)
       return <div className='exams_Itm' key={ind}>
-              <img src={require("../images/JEE.jfif")} width='250' height='280'/>
+              <img src={require("../images/NEET.jpg")} width='250' height='280'/>
               <div><h6>{item.name}</h6>
               <p>{(item.eligibility.length>400)?item.eligibility.substr(0,400)+"...":item.eligibility}</p>
               <p> Last Date To Apply : {item.last_date}</p>

@@ -94,11 +94,11 @@ class ArticleCardsComp extends Component {
   else
   {
     return (<>
-    <div id="articles">
-    <h2 style={{"margin-top":"30px","textAlign":"center"}}>Articles</h2>
+    <h2 style={{"textAlign":"center"}}>Articles</h2>
+    <div id="articles" style={{"marginLeft":"auto","textAlign":"center"}} >
     <StyledArticle>
     <button  class="previous round" onClick={this.previous}>&#8249;&#8249;</button>
-    <img src={require("../images/Loading_icon.gif")} className='loading'/>
+    <img width={200} height={200} style={{"marginRight":"36%"}} src={require("../images/Loading_icon.gif")} className='loading'/>
     <button  class="next round" onClick={this.next}>&#8250;&#8250;</button>
     </StyledArticle>
     </div>
